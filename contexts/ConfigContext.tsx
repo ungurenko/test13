@@ -32,7 +32,7 @@ const DEFAULT_SCHEMA = {
 
 const DEFAULT_CONFIG: AppConfig = {
   systemInstruction: "Ты — профессиональный редактор и аналитик. Твоя задача — извлекать суть из любых текстов. Отвечай только валидным JSON.",
-  model: "google/gemini-2.5-flash",
+  model: "xiaomi/mimo-v2-flash",
   temperature: 0.7,
   responseSchema: JSON.stringify(DEFAULT_SCHEMA, null, 2),
 };
@@ -50,7 +50,7 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('app_config_v1');
+    const saved = localStorage.getItem('app_config_v2');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -66,14 +66,14 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const updateConfig = (newConfig: Partial<AppConfig>) => {
     setConfig(prev => {
       const updated = { ...prev, ...newConfig };
-      localStorage.setItem('app_config_v1', JSON.stringify(updated));
+      localStorage.setItem('app_config_v2', JSON.stringify(updated));
       return updated;
     });
   };
 
   const resetConfig = () => {
     setConfig(DEFAULT_CONFIG);
-    localStorage.removeItem('app_config_v1');
+    localStorage.removeItem('app_config_v2');
   };
 
   if (!loaded) return null; // Or a loader

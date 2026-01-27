@@ -58,7 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: config?.model || 'google/gemini-2.5-flash',
+        model: config?.model || 'xiaomi/mimo-v2-flash',
         messages: [
           { role: 'system', content: systemInstruction },
           { role: 'user', content: `Проанализируй следующий текст:\n\n${text}` },
@@ -83,6 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await response.json();
+    console.log('Polza API response:', JSON.stringify(data, null, 2)); // DEBUG
     const content = data.choices?.[0]?.message?.content;
 
     if (!content) {

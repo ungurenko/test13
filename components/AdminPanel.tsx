@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useConfig } from '../contexts/ConfigContext';
 import { Settings, X, Save, RotateCcw, Play, Terminal, Lock, Check } from 'lucide-react';
-import { analyzeText } from '../services/geminiService';
+import { analyzeText } from '../services/polzaService';
 import { AnalysisResult } from '../types';
 
 export const AdminPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -146,7 +146,7 @@ export const AdminPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   onChange={e => handleChange('model', e.target.value)}
                   className="w-full p-3 bg-white border border-brand-200 rounded-lg font-mono text-sm"
                 />
-                <p className="text-xs text-brand-400 mt-1">Например: gemini-3-flash-preview, gemini-3-pro-preview</p>
+                <p className="text-xs text-brand-400 mt-1">Например: xiaomi/mimo-v2-flash, openai/gpt-4o-mini, anthropic/claude-3.7-sonnet</p>
               </div>
 
               <div>
