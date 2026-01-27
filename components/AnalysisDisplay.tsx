@@ -27,7 +27,7 @@ export const AnalysisDisplay: React.FC<Props> = ({ data }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    const textToCopy = `Сводка: ${data.summary}\n\nОсновные мысли:\n${data.keyPoints.map(p => `- ${p}`).join('\n')}`;
+    const textToCopy = `Сводка: ${data.summary}\n\nОсновные мысли:\n${(data.keyPoints || []).map(p => `- ${p}`).join('\n')}`;
     navigator.clipboard.writeText(textToCopy);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -70,7 +70,7 @@ export const AnalysisDisplay: React.FC<Props> = ({ data }) => {
       <Card className="md:col-span-3 bg-white" delay={300}>
         <Label icon={CheckCircle2} text="Основные мысли" />
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-          {data.keyPoints.map((point, index) => (
+          {(data.keyPoints || []).map((point, index) => (
             <li key={index} className="flex items-start gap-3 group">
               <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center text-xs font-bold mt-0.5 group-hover:bg-accent group-hover:text-white transition-colors">
                 {index + 1}
@@ -85,7 +85,7 @@ export const AnalysisDisplay: React.FC<Props> = ({ data }) => {
       <Card className="md:col-span-3" delay={400}>
         <Label icon={Hash} text="Ключевые слова" />
         <div className="flex flex-wrap gap-2">
-            {data.keywords.map((kw, idx) => (
+            {(data.keywords || []).map((kw, idx) => (
                 <span key={idx} className="px-3 py-1 bg-brand-100 text-brand-600 rounded-full text-sm font-medium border border-brand-200">
                     #{kw}
                 </span>

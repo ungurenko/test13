@@ -1,15 +1,13 @@
 import { GoogleGenAI } from "@google/genai";
 import { AnalysisResult, AppConfig } from "../types";
 
-const apiKey = process.env.API_KEY;
-
-if (!apiKey) {
-  console.error("API_KEY is missing from environment variables");
-}
-
-const ai = new GoogleGenAI({ apiKey: apiKey || 'dummy-key-to-prevent-crash-if-missing' });
-
 export const analyzeText = async (text: string, config?: AppConfig): Promise<AnalysisResult> => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API_KEY не настроен. Используйте основной API через /api/analyze.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   if (!text || text.trim().length === 0) {
     throw new Error("Пожалуйста, введите текст для анализа.");
   }
