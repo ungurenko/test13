@@ -90,7 +90,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const result = JSON.parse(content);
-    return res.status(200).json(result);
+
+    // Валидация и fallback для пустых полей
+    const validatedResult = {
+      summary: result.summary || "Не удалось извлечь краткое содержание",
+      keyPoints: Array.isArray(result.keyPoints) ? result.keyPoints : [],
+      tone: result.tone || "Не определено",
+      readingTime: result.readingTime || "~1 мин",
+      keywords: Array.isArray(result.keywords) ? result.keywords : [],
+    };
+
+    return res.status(200).json(validatedResult);
 
   } catch (error: any) {
     console.error('Analyze error:', error);

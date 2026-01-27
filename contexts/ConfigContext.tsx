@@ -32,7 +32,7 @@ const DEFAULT_SCHEMA = {
 
 const DEFAULT_CONFIG: AppConfig = {
   systemInstruction: "Ты — профессиональный редактор и аналитик. Твоя задача — извлекать суть из любых текстов. Отвечай только валидным JSON.",
-  model: "gemini-3-flash-preview",
+  model: "google/gemini-2.5-flash",
   temperature: 0.7,
   responseSchema: JSON.stringify(DEFAULT_SCHEMA, null, 2),
 };

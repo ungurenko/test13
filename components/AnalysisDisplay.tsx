@@ -49,7 +49,7 @@ export const AnalysisDisplay: React.FC<Props> = ({ data }) => {
             </button>
         </div>
         <p className="text-xl md:text-2xl font-serif leading-relaxed text-brand-900">
-          {data.summary}
+          {data.summary || "Анализ не вернул результатов"}
         </p>
       </Card>
 
@@ -57,12 +57,12 @@ export const AnalysisDisplay: React.FC<Props> = ({ data }) => {
       <div className="grid grid-cols-2 md:grid-cols-1 gap-6 md:col-span-1">
         <Card delay={100} className="bg-gradient-to-br from-brand-50 to-white">
           <Label icon={Sparkles} text="Тональность" />
-          <p className="text-2xl font-medium text-brand-800 capitalize">{data.tone}</p>
+          <p className="text-2xl font-medium text-brand-800 capitalize">{data.tone || "—"}</p>
         </Card>
         
         <Card delay={200} className="bg-gradient-to-br from-brand-50 to-white">
           <Label icon={Clock} text="Время чтения" />
-          <p className="text-2xl font-medium text-brand-800">{data.readingTime}</p>
+          <p className="text-2xl font-medium text-brand-800">{data.readingTime || "—"}</p>
         </Card>
       </div>
 
