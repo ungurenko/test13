@@ -32,7 +32,7 @@ const DEFAULT_SCHEMA = {
 
 const DEFAULT_CONFIG: AppConfig = {
   systemInstruction: "Ты — профессиональный редактор и аналитик. Твоя задача — извлекать суть из любых текстов. Отвечай только валидным JSON.",
-  model: "xiaomi/mimo-v2-flash",
+  model: "deepseek/deepseek-v3.2",
   temperature: 0.7,
   responseSchema: JSON.stringify(DEFAULT_SCHEMA, null, 2),
 };

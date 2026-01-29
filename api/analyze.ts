@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const POLZA_API_URL = 'https://api.polza.ai/api/v1/chat/completions';
+const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
 interface AnalyzeRequestBody {
   text: string;
@@ -26,9 +26,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.POLZA_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    console.error('POLZA_API_KEY is not configured');
+    console.error('OPENROUTER_API_KEY is not configured');
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
@@ -51,14 +51,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }`;
 
   try {
-    const response = await fetch(POLZA_API_URL, {
+    const response = await fetch(OPENROUTER_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
+        'X-Title': 'Суть.',
       },
       body: JSON.stringify({
-        model: config?.model || 'xiaomi/mimo-v2-flash',
+        model: config?.model || 'deepseek/deepseek-v3.2',
         messages: [
           { role: 'system', content: systemInstruction },
           { role: 'user', content: `Проанализируй следующий текст:\n\n${text}` },
@@ -70,7 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error('Polza API error:', response.status, errorData);
+      console.error('OpenRouter API error:', response.status, errorData);
 
       if (response.status === 401) {
         return res.status(500).json({ error: 'API authentication error' });
@@ -83,7 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await response.json();
-    console.log('Polza API response:', JSON.stringify(data, null, 2)); // DEBUG
+    console.log('OpenRouter API response:', JSON.stringify(data, null, 2)); // DEBUG
     const content = data.choices?.[0]?.message?.content;
 
     if (!content) {
