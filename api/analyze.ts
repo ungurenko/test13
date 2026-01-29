@@ -128,6 +128,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Invalid JSON response from AI' });
     }
 
-    return res.status(500).json({ error: 'Analysis failed. Please try again.' });
+    return res.status(500).json({
+      error: 'Analysis failed. Please try again.',
+      debug: error.message // временно для диагностики
+    });
   }
 }
