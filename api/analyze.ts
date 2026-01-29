@@ -38,10 +38,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Text is required' });
   }
 
-  // Build system instruction
-  const systemInstruction = config?.systemInstruction || `Ты — эксперт по анализу текста. Анализируй тексты на русском языке. Будь краток, точен и объективен.
+  // Build system instruction - always include JSON format requirements
+  const baseInstruction = config?.systemInstruction || 'Ты — эксперт по анализу текста. Анализируй тексты на русском языке. Будь краток, точен и объективен.';
 
-Отвечай СТРОГО в формате JSON:
+  const systemInstruction = `${baseInstruction}
+
+Отвечай СТРОГО в формате JSON (без markdown, без \`\`\`):
 {
   "summary": "краткое изложение текста (2-3 предложения)",
   "keyPoints": ["ключевой тезис 1", "ключевой тезис 2", ...],
