@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
-        'X-Title': 'Суть.',
+        'X-Title': 'Sut Text Analyzer',
       },
       body: JSON.stringify({
         model: config?.model || 'deepseek/deepseek-v3.2',
@@ -128,9 +128,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Invalid JSON response from AI' });
     }
 
-    return res.status(500).json({
-      error: 'Analysis failed. Please try again.',
-      debug: error.message // временно для диагностики
-    });
+    return res.status(500).json({ error: 'Analysis failed. Please try again.' });
   }
 }
