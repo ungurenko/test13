@@ -65,7 +65,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { role: 'user', content: `Проанализируй следующий текст:\n\n${text}` },
         ],
         temperature: config?.temperature ?? 0.7,
-        response_format: { type: 'json_object' },
       }),
     });
 
