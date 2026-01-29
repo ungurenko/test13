@@ -83,14 +83,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await response.json();
-    console.log('OpenRouter API response:', JSON.stringify(data, null, 2)); // DEBUG
+    console.log('OpenRouter API response status:', response.status);
     const content = data.choices?.[0]?.message?.content;
 
     if (!content) {
+      console.error('Empty content from AI. Full response:', JSON.stringify(data));
       return res.status(500).json({ error: 'Empty response from AI' });
     }
 
-    const result = JSON.parse(content);
+    console.log('Raw AI content (first 500 chars):', content.slice(0, 500));
+
+    // Очистка markdown обёртки (модели часто возвращают ```json ... ```)
+    let cleanContent = content.trim();
+    if (cleanContent.startsWith('```json')) {
+      cleanContent = cleanContent.slice(7);
+    } else if (cleanContent.startsWith('```')) {
+      cleanContent = cleanContent.slice(3);
+    }
+    if (cleanContent.endsWith('```')) {
+      cleanContent = cleanContent.slice(0, -3);
+    }
+    cleanContent = cleanContent.trim();
+
+    const result = JSON.parse(cleanContent);
 
     // Валидация и fallback для пустых полей
     const validatedResult = {
@@ -104,7 +119,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json(validatedResult);
 
   } catch (error: any) {
-    console.error('Analyze error:', error);
+    console.error('Analyze error:', {
+      name: error.name,
+      message: error.message,
+    });
 
     if (error instanceof SyntaxError) {
       return res.status(500).json({ error: 'Invalid JSON response from AI' });
